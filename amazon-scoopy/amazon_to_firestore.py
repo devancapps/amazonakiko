@@ -90,14 +90,10 @@ def scrape_amazon_best_sellers():
         response = session.get(url, headers=get_headers())
         response.raise_for_status()
         
-        # Save the HTML for debugging
-        with open('amazon_response.html', 'w', encoding='utf-8') as f:
-            f.write(response.text)
-        
         soup = BeautifulSoup(response.text, 'html.parser')
         
-        # Find all product items
-        products = soup.select('div[data-asin]')
+        # Find all product items and limit to 8
+        products = soup.select('div[data-asin]')[:8]
         print(f"Found {len(products)} products")
         
         for i, product in enumerate(products, 1):
@@ -112,6 +108,10 @@ def scrape_amazon_best_sellers():
                         title_div = div
                         break
                 
+                # Extract image URL
+                image = product.select_one('img')
+                image_url = image['src'] if image else 'https://via.placeholder.com/150'
+                
                 price = product.select_one('span._cDEzb_p13n-sc-price_3mJ9Z')
                 rating = product.select_one('span.a-icon-alt')
                 review_count = product.select_one('span.a-size-small')
@@ -121,6 +121,7 @@ def scrape_amazon_best_sellers():
                 print(f"Title element found: {title_div is not None}")
                 if title_div:
                     print(f"Title text: {title_div.text.strip()}")
+                print(f"Image URL: {image_url}")
                 
                 if not asin or not title_div:
                     print("❌ Skipping product - missing ASIN or title")
@@ -132,6 +133,7 @@ def scrape_amazon_best_sellers():
                     'price': price.text.strip() if price else 'N/A',
                     'rating': rating.text.split()[0] if rating else 'N/A',
                     'review_count': review_count.text.strip() if review_count else '0',
+                    'image': image_url,
                     'timestamp': datetime.now().isoformat(),
                     'source': 'amazon_best_sellers'
                 }
@@ -140,7 +142,7 @@ def scrape_amazon_best_sellers():
                 
                 try:
                     db.collection("products").document(asin).set(product_data)
-                    print(f"✅ Uploaded {title_div.text.strip()} to Firestore.")
+                    print(f"✅ Uploaded: {title_div.text.strip()} | Image: {image_url}")
                 except Exception as e:
                     print(f"❌ Failed to upload {asin}: {str(e)}")
                 
