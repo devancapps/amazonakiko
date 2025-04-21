@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background: #f8f8f8;
   color: #222;
 }
@@ -9,50 +9,107 @@ header {
   background: #232f3e;
   color: white;
   padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+header h1 {
+  margin: 0;
+  font-size: 1.8rem;
 }
 #product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
   padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .card {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: 0.3s ease;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 .card img {
-  max-width: 100%;
-  border-radius: 8px;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
   margin-bottom: 1rem;
 }
 .card h3 {
-  font-size: 1rem;
-  text-align: center;
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  color: #333;
 }
 .card .price {
-  color: #b12704;
+  font-size: 1.2rem;
   font-weight: bold;
+  color: #e53935;
   margin: 0.5rem 0;
 }
 .card .rating {
+  color: #666;
   font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem 0;
 }
 .card button {
-  background-color: #ffa41c;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #ff6f00;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.card button:hover {
+  background-color: #e65100;
+}
+@media (max-width: 600px) {
+  #product-grid {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .card {
+    padding: 0.8rem;
+  }
+}
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  background-color: #fff3f3;
+  border-radius: 8px;
+  margin: 1rem;
+}
+.error-message p {
+  color: #d32f2f;
+  margin-bottom: 1rem;
+}
+.error-message button {
+  background-color: #d32f2f;
+  color: white;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  color: white;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background-color 0.2s;
 }
-.card button:hover {
-  background-color: #ff8f00;
+.error-message button:hover {
+  background-color: #b71c1c;
+}
+.no-products {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
 } 
