@@ -1,3 +1,9 @@
+# Firebase
+serviceAccountKey.json
+.firebase/
+.firebaserc
+firebase.json
+
 # Python
 __pycache__/
 *.py[cod]
@@ -46,4 +52,7 @@ Thumbs.db
 *.log
 
 # Amazon response
-amazon_response.html 
+amazon_response.html
+
+# Temporary files
+temp_repo/ 
